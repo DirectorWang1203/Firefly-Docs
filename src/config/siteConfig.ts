@@ -32,7 +32,7 @@ export const siteConfig: SiteConfig = {
 	// 主题色
 	themeColor: {
 		// 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
-		hue: 165,
+		hue: 345,
 		// 默认模式："light" 亮色，"dark" 暗色，"system" 跟随系统
 		defaultMode: "system",
 	},
@@ -45,7 +45,7 @@ export const siteConfig: SiteConfig = {
 	// 网站Card样式配置
 	card: {
 		// 是否开启卡片边框和阴影，开启后让网站更有立体感
-		border: false,
+		border: true,
 		// 是否让卡片风格跟随主题色相
 		followTheme: false,
 	},
@@ -81,7 +81,7 @@ export const siteConfig: SiteConfig = {
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中
-		menuAlign: "center",
+		menuAlign: "left",
 		// 导航栏图标和标题是否跟随主题色
 		followTheme: false,
 		// 导航栏是否固定在顶部并始终可见
@@ -89,7 +89,7 @@ export const siteConfig: SiteConfig = {
 	},
 
 	// 站点开始日期，用于统计运行天数
-	siteStartDate: "2025-01-01",
+	siteStartDate: "2026-07-27",
 
 	// 站点时区（IANA 时区字符串），用于格式化bangumi、rss里的构建日期时间等等..
 	// 示例："Asia/Shanghai", "UTC", 如果为空，则按照构建服务器的时区进行时区转换
@@ -100,7 +100,7 @@ export const siteConfig: SiteConfig = {
 		// 友链页面开关
 		friends: true,
 		// 打赏页面开关
-		sponsor: true,
+		sponsor: false,
 		// 留言板页面开关，需要配置评论系统
 		guestbook: true,
 		// 番组计划页面开关，含追番、游戏、书籍和音乐
@@ -132,7 +132,7 @@ export const siteConfig: SiteConfig = {
 		// 标签显示位置
 		// 设置为"meta"：显示在文章标题下的元数据
 		// 设置为"bottom"：顶替stats在底部显示
-		tagsPosition: "bottom",
+		tagsPosition: "meta",
 		// PostMeta 元数据显示控制
 		meta: {
 			// 是否显示发布日期
@@ -152,7 +152,7 @@ export const siteConfig: SiteConfig = {
 		// 如果tagsPosition设置为"bottom"，则stats将不显示
 		stats: {
 			// 是否显示发布日期
-			showPublished: true,
+			showPublished: false,
 			// 是否显示字数
 			showWords: true,
 			// 是否显示阅读时间
@@ -214,7 +214,7 @@ export const siteConfig: SiteConfig = {
 		// Bilibili 配置
 		bilibili: {
 			// 你的 Bilibili 用户 UID
-			uid: "38932988",
+			uid: "36542033",
 		},
 		// TMDB 配置（可选，需要翻墙）
 		// tmdb: {
