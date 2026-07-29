@@ -9,7 +9,7 @@ export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.jpg",
 
 	// 名字
-	name: "DirectorWang",
+	name: "Dr王主任",
 
 	// 个人签名
 	bio: "不求星辰大海，只愿历经千帆，眼里仍有光芒。",
