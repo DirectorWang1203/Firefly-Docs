@@ -1,0 +1,10 @@
+---
+
+import {i18n} from "@i18n/translation.ts";
+import I18nKey from "@i18n/i18nKey.ts";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import ChatPanel from "@components/pages/chat/ChatPanel.svelte";
+---
+<MainGridLayout title={i18n(I18nKey.chat)} description={i18n(I18nKey.chat)}>
+    <ChatPanel client:load/>
+</MainGridLayout>

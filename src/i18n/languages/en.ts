@@ -427,4 +427,7 @@ export const en: Translation = {
 	[Key.videoPrev]: "Previous video",
 	[Key.videoNext]: "Next video",
 	[Key.videoLoadError]: "Video failed to load",
+
+	// AI chat
+	[Key.chat]: "AI Chat",
 };

@@ -416,4 +416,7 @@ export const zh_CN: Translation = {
 	[Key.videoPrev]: "上一个视频",
 	[Key.videoNext]: "下一个视频",
 	[Key.videoLoadError]: "视频加载失败",
+
+	// AI聊天
+	[Key.chat]: "AI聊天",
 };

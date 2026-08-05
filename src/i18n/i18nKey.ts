@@ -414,6 +414,9 @@ enum I18nKey {
 	videoPrev = "videoPrev",
 	videoNext = "videoNext",
 	videoLoadError = "videoLoadError",
+
+	// AI聊天
+	chat = "chat",
 }
 
 export default I18nKey;

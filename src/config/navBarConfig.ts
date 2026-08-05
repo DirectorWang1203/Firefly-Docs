@@ -66,6 +66,8 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			// LinkPresets.Bangumi,
 		],
 	});
+    
+    links.push(LinkPresets.Chat);
 
 	// 关于及其子菜单
 	links.push({
@@ -122,7 +124,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	// 	external: true,
 	// 	icon: "material-symbols:docs",
 	// });
-
+    
 	return { links } as NavBarConfig;
 };
 
@@ -203,6 +205,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		icon: "material-symbols:live-tv",
 		pageKey: "anime",
 	},
+    Chat: {
+        name: "AI对话",
+        url: "/chat/",
+        icon: "material-symbols:chat",
+    }
 };
 
 export const navBarConfig: NavBarConfig = getDynamicNavBarConfig();

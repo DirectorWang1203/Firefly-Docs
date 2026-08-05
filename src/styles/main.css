@@ -12,6 +12,7 @@
 @import './categories.css';
 
 @plugin '@tailwindcss/typography';
+@plugin 'daisyui';
 
 /* 暗色模式选择器配置 */
 @custom-variant dark (&:where(.dark, .dark *));

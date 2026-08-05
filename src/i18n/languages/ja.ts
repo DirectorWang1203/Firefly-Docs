@@ -426,4 +426,7 @@ export const ja: Translation = {
 	[Key.videoPrev]: "前の動画",
 	[Key.videoNext]: "次の動画",
 	[Key.videoLoadError]: "動画の読み込みに失敗しました",
+
+	// AIチャット
+	[Key.chat]: "AIチャット",
 };
