@@ -23,7 +23,7 @@
         const tempMessage = message;
         message = "";
 
-        const response = await fetch("http://localhost:619/chats/run", {
+        const response = await fetch("/chats/run", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -57,7 +57,7 @@
     }
 
     const getHistory = async () => {
-        const response = await fetch(`http://localhost:619/chats/log?chatId=${selected}`);
+        const response = await fetch(`/chats/log?chatId=${selected}`);
         const data = await response.json();
 
         console.log(data);
@@ -66,7 +66,7 @@
     }
 
     const pingChat = async () => {
-        const response = await fetch("http://localhost:619/chats/ping");
+        const response = await fetch("/chats/ping");
         const data = await response.json();
 
         console.log(data);
