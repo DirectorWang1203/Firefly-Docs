@@ -8,12 +8,18 @@
         content:string
     }
 
+    type TChatList = {
+        chatId:string,
+        title:string
+    }
+
     let ready = $state(false);
     let message = $state("");
     let chatsId = $state("");
     let selected = $state("");
-    let idArray = $derived(JSON.parse(chatsId));
     let log:TLog[] = $state([]);
+    let chatList:TChatList[] = $state([]);
+    let selectedTitle = $derived(chatList.find(item => item.chatId === selected)?.title);
 
     const runChat = async () => {
         if(message === '') {
@@ -51,16 +57,12 @@
             localStorage.setItem("chatId", JSON.stringify([data.chatId]));
         }
 
-        console.log(data.chatMessage)
-
         chatsId = localStorage.getItem("chatId") || "[]";
     }
 
     const getHistory = async () => {
         const response = await fetch(`/chats/log?chatId=${selected}`);
         const data = await response.json();
-
-        console.log(data);
 
         log = data.chatHistoryList.messages;
     }
@@ -69,11 +71,24 @@
         const response = await fetch("/chats/ping");
         const data = await response.json();
 
-        console.log(data);
-
         if(data && data.reply === 'pang') {
             ready = true;
         }
+    }
+
+    const getList = async () => {
+        const response = await fetch("/chats/list", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                list: chatsId
+            })
+        });
+        const data = await response.json();
+
+        chatList = data.chatList;
     }
 
     $effect(() => {
@@ -87,7 +102,12 @@
     })
 
     $effect(() => {
+        getList();
+    })
+
+    $effect(() => {
         log
+        getList();
         requestAnimationFrame(() => {
             const container = document.getElementById('chat-container');
             if (container) {
@@ -106,23 +126,23 @@
             <button
                     popovertarget="popover-1"
                     style="anchor-name:--anchor-1"
-                    class="btn-regular rounded-lg h-8 px-4 max-w-60 text-sm transition-colors"
+                    class="block btn-regular rounded-lg h-8 px-4 max-w-60 text-sm transition-colors text-center truncate"
                     aria-label={i18n(I18nKey.announcementClose)}
             >
-                {selected === '' ? '新对话' : selected}
+                {selected === '' ? '新对话' : selectedTitle}
             </button>
-            <div class="dropdown scrollbar scrollbar-thin scroll-smooth grid menu w-[300px] rounded-box bg-base-100 shadow-sm gap-2 mt-1 max-h-[200px]"
+            <div class="dropdown scrollbar scrollbar-thin scroll-smooth grid menu rounded-box bg-base-100 shadow-sm gap-2 mt-1 max-h-[200px]"
                  popover id="popover-1" style="position-anchor:--anchor-1">
                 {#if selected === ''}
-                    <li><a class="btn-regular cursor-default active:bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg) text-(--btn-content)">新对话</a></li>
+                    <li><a class="btn-regular cursor-default active:bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg) text-(--btn-content) w-60">新对话</a></li>
                 {:else}
-                    <li><a on:click={() => selected = ''} class="btn-regular bg-(--btn-regular-bg)/50 active:bg-(--btn-regular-bg-active)/60 hover:bg-(--btn-regular-bg-hover)/60 text-(--btn-content)/80">新对话</a></li>
+                    <li><a on:click={() => selected = ''} class="btn-regular bg-(--btn-regular-bg)/50 active:bg-(--btn-regular-bg-active)/60 hover:bg-(--btn-regular-bg-hover)/60 text-(--btn-content)/80 w-60">新对话</a></li>
                 {/if}
-                {#each idArray as item}
-                    {#if selected === item}
-                        <li><a class="btn-regular cursor-default active:bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg) text-(--btn-content)">{item}</a></li>
+                {#each chatList as item}
+                    {#if selected === item.chatId}
+                        <li><a class="block btn-regular cursor-default active:bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg) text-(--btn-content) w-60 text-center truncate">{item.title}</a></li>
                     {:else}
-                        <li><a on:click={() => selected = item} class="btn-regular bg-(--btn-regular-bg)/50 active:bg-(--btn-regular-bg-active)/60 hover:bg-(--btn-regular-bg-hover)/60 text-(--btn-content)/80">{item}</a></li>
+                        <li><a on:click={() => selected = item.chatId} class="block btn-regular bg-(--btn-regular-bg)/50 active:bg-(--btn-regular-bg-active)/60 hover:bg-(--btn-regular-bg-hover)/60 text-(--btn-content)/80 w-60 text-center truncate">{item.title}</a></li>
                     {/if}
                 {/each}
             </div>
