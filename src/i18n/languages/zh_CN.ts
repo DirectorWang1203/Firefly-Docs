@@ -27,7 +27,7 @@ export const zh_CN: Translation = {
 	[Key.dynamic]: "动态",
 	[Key.latestDynamics]: "最新动态",
 	[Key.moreDynamics]: "更多动态",
-	[Key.dynamicDescription]: "随手记下此刻的想法与日常。",
+	[Key.dynamicDescription]: "和小肥鱼一起随手记下此刻的想法与日常。",
 	[Key.dynamicEmpty]: "还没有发布动态",
 	[Key.dynamicSearch]: "搜索动态...",
 	[Key.dynamicNoResults]: "没有找到匹配的动态",
@@ -419,4 +419,7 @@ export const zh_CN: Translation = {
 
 	// AI聊天
 	[Key.chat]: "AI聊天",
+
+	// 登神长阶
+	[Key.exercise]: "登神长阶",
 };

@@ -429,4 +429,7 @@ export const ja: Translation = {
 
 	// AIチャット
 	[Key.chat]: "AIチャット",
+
+	// 登神の階
+	[Key.exercise]: "登神の階",
 };

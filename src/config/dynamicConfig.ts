@@ -19,7 +19,8 @@ export const dynamicConfig: DynamicConfig = {
 	// 动态数据 json 地址，本地默认 "/api/dynamic.json"
 	// 可改为第三方接口地址，如 "https://firefly.cuteleaf.cn/api/dynamic.json"
 	// 数据结构可打开上方链接地址参考
-	// 当 memos.enable 为 true 时，此配置会被忽略
+	// memos.enable 为 true 时忽略这里
+	// localPosts.enable 为 true 时，这里的动态会和小肥鱼的动态一起显示
 	apiUrl: "/api/dynamic.json",
 
 	// ========== Memos 配置 ==========
@@ -34,5 +35,17 @@ export const dynamicConfig: DynamicConfig = {
 
 		// Memos 用户标识，如 "users/你的memos用户名"，用于过滤指定用户的动态
 		parent: "users/xiaye",
+	},
+
+	// ========== 小肥鱼动态 ==========
+	// 启用后和上面的动态一起显示，作者名和头像单独区分
+	// 清单 GET {apiUrl}/posts，正文 GET {apiUrl}/posts/{file}
+	// 线上走站点自己的 /fish/，由 Nginx 转到本机 6201。本地调试可改回 http://127.0.0.1:6201
+	localPosts: {
+		enable: true,
+		apiUrl: "/fish",
+		name: "今天也没被做成鱼罐头",
+		avatar: "/assets/images/fish-avatar.jpg",
+		profileUrl: "/about/fish/",
 	},
 };

@@ -204,6 +204,15 @@ dynamic-feed {
 	object-fit: cover;
 }
 
+.dynamic-entry[data-author="fish"] .dynamic-avatar img {
+	object-position: center 28%;
+}
+
+.dynamic-entry[data-author="fish"] .dynamic-identity strong {
+	white-space: normal;
+	text-overflow: unset;
+}
+
 .dynamic-identity {
 	display: flex;
 	min-width: 0;
@@ -360,6 +369,19 @@ dynamic-feed {
 .dynamic-content blockquote,
 .dynamic-content pre {
 	margin-block: 0.75rem;
+}
+
+.dynamic-content ul,
+.dynamic-content ol {
+	padding-left: 1.25rem;
+}
+
+.dynamic-content ul {
+	list-style: disc;
+}
+
+.dynamic-content ol {
+	list-style: decimal;
 }
 
 .dynamic-gallery {

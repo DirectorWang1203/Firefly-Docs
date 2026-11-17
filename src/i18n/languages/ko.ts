@@ -428,4 +428,7 @@ export const ko: Translation = {
 
 	// AI 채팅
 	[Key.chat]: "AI 채팅",
+
+	// 등신의 계단
+	[Key.exercise]: "등신의 계단",
 };

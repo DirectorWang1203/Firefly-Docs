@@ -2,6 +2,70 @@
 
 .custom-md {
   overflow-wrap: break-word;
+  transition-property: color, background-color, border-color, text-decoration-color;
+  transition-duration: 0.15s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  :where(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    li,
+    blockquote,
+    strong,
+    em,
+    figcaption,
+    dt,
+    dd,
+    hr,
+    a,
+    kbd,
+    th,
+    td,
+    code
+  ):not(.expressive-code, .expressive-code *) {
+    transition-property: color, background-color, border-color, text-decoration-color;
+    transition-duration: 0.15s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 开卡片边框时，卡片过渡是 300ms，正文跟上同一时长 */
+  .enable-card-border & {
+    transition-duration: 0.3s;
+  }
+
+  .enable-card-border & :where(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    li,
+    blockquote,
+    strong,
+    em,
+    figcaption,
+    dt,
+    dd,
+    hr,
+    a,
+    kbd,
+    th,
+    td,
+    code
+  ):not(.expressive-code, .expressive-code *) {
+    transition-duration: 0.3s;
+  }
+
+  .enable-card-border & li::marker {
+    transition-duration: 0.3s;
+  }
 
   body.sticky-navbar & {
     [id] {
@@ -11,6 +75,17 @@
 
   h1 {
     @apply text-3xl;
+  }
+
+  h1 img {
+    display: inline-block;
+    width: 1.15em;
+    height: 1.15em;
+    margin: 0 0 0.12em 0.4em;
+    vertical-align: middle;
+    border-radius: 9999px;
+    object-fit: cover;
+    object-position: center 28%;
   }
 
   h1,
@@ -96,6 +171,7 @@
   ol {
     li::marker {
       @apply text-(--primary);
+      transition: color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 
@@ -194,6 +270,28 @@
   tr:nth-child(even) td {
     @apply bg-(--btn-plain-bg-active);
   }
+}
+
+/* 与 :root.dark 同一轮改写正文色，避免 prose 灰阶晚于卡片变量切换 */
+:root.dark .prose {
+  --tw-prose-body: var(--tw-prose-invert-body);
+  --tw-prose-headings: var(--tw-prose-invert-headings);
+  --tw-prose-lead: var(--tw-prose-invert-lead);
+  --tw-prose-links: var(--tw-prose-invert-links);
+  --tw-prose-bold: var(--tw-prose-invert-bold);
+  --tw-prose-counters: var(--tw-prose-invert-counters);
+  --tw-prose-bullets: var(--tw-prose-invert-bullets);
+  --tw-prose-hr: var(--tw-prose-invert-hr);
+  --tw-prose-quotes: var(--tw-prose-invert-quotes);
+  --tw-prose-quote-borders: var(--tw-prose-invert-quote-borders);
+  --tw-prose-captions: var(--tw-prose-invert-captions);
+  --tw-prose-kbd: var(--tw-prose-invert-kbd);
+  --tw-prose-kbd-shadows: var(--tw-prose-invert-kbd-shadows);
+  --tw-prose-code: var(--tw-prose-invert-code);
+  --tw-prose-pre-code: var(--tw-prose-invert-pre-code);
+  --tw-prose-pre-bg: var(--tw-prose-invert-pre-bg);
+  --tw-prose-th-borders: var(--tw-prose-invert-th-borders);
+  --tw-prose-td-borders: var(--tw-prose-invert-td-borders);
 }
 
 body.wallpaper-transparent .custom-md {

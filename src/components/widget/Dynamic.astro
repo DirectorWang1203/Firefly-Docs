@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components";
 import WidgetLayout from "@/components/common/WidgetLayout.astro";
 import DynamicSidebar from "@/components/widget/DynamicSidebar.svelte";
-import { dynamicConfig, siteConfig } from "@/config";
+import { dynamicConfig, profileConfig, siteConfig } from "@/config";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import type { WidgetComponentConfig } from "@/types/config";
@@ -23,6 +23,7 @@ const apiUrl = dynamicConfig.apiUrl?.startsWith("http")
 	? dynamicConfig.apiUrl
 	: url(dynamicConfig.apiUrl || "/api/dynamic.json");
 const memos = dynamicConfig.memos;
+const localPosts = dynamicConfig.localPosts;
 ---
 
 {
@@ -34,7 +35,14 @@ const memos = dynamicConfig.memos;
 			class={className}
 			style={style}
 		>
-			<DynamicSidebar client:load apiUrl={apiUrl} limit={limit} {memos} />
+			<DynamicSidebar
+				client:load
+				apiUrl={apiUrl}
+				limit={limit}
+				profileName={profileConfig.name}
+				{memos}
+				{localPosts}
+			/>
 			<a
 				class="btn-plain mt-2 flex items-center justify-center gap-1 rounded-lg p-1.5
 					text-sm text-(--primary)"

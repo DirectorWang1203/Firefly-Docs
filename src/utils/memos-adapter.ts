@@ -39,6 +39,12 @@ export interface DynamicImage {
 	title?: string;
 }
 
+export interface DynamicAuthor {
+	name: string;
+	avatar?: string;
+	kind?: "fish";
+}
+
 export interface DynamicEntry {
 	id: string;
 	published: number;
@@ -47,6 +53,9 @@ export interface DynamicEntry {
 	searchText: string;
 	pinned?: boolean;
 	location?: string;
+	author?: DynamicAuthor;
+	/** 时间戳带真实时区，按浏览器本地时间显示 */
+	externalTime?: boolean;
 }
 
 /**

@@ -430,4 +430,7 @@ export const en: Translation = {
 
 	// AI chat
 	[Key.chat]: "AI Chat",
+
+	// Stairway to godhood
+	[Key.exercise]: "Stairway to Godhood",
 };

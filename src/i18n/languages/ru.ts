@@ -432,4 +432,7 @@ export const ru: Translation = {
 
 	// AI-чат
 	[Key.chat]: "AI-чат",
+
+	// Лестница восхождения
+	[Key.exercise]: "Лестница восхождения",
 };

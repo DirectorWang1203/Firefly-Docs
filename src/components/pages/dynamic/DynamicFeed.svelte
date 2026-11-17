@@ -2,7 +2,9 @@
 import { onMount, tick } from "svelte";
 import ClientPagination from "@/components/common/ClientPagination.svelte";
 import { formatTimezoneOffset } from "@/utils/date-utils";
+import { fetchSiteAndLocalPosts } from "@/utils/local-posts-adapter";
 import { fetchMemos } from "@/utils/memos-adapter";
+import { url } from "@/utils/url-utils";
 import { registerDynamicGallery } from "./dynamic-gallery";
 import { registerDynamicInlineComments } from "./dynamic-inline-comments";
 
@@ -20,12 +22,22 @@ type DynamicData = {
 	searchText: string;
 	pinned?: boolean;
 	location?: string;
+	author?: { name: string; avatar?: string; kind?: "fish" };
+	externalTime?: boolean;
 };
 
 interface MemosConfig {
 	enable: boolean;
 	apiUrl: string;
 	parent?: string;
+}
+
+interface LocalPostsConfig {
+	enable: boolean;
+	apiUrl: string;
+	name?: string;
+	avatar?: string;
+	profileUrl?: string;
 }
 
 interface Props {
@@ -38,6 +50,7 @@ interface Props {
 	allYearsText: string;
 	timezone: string;
 	memos?: MemosConfig;
+	localPosts?: LocalPostsConfig;
 }
 
 const {
@@ -50,6 +63,7 @@ const {
 	allYearsText,
 	timezone,
 	memos,
+	localPosts,
 }: Props = $props();
 
 let entries = $state<DynamicData[]>([]);
@@ -134,6 +148,29 @@ function createItem(entry: DynamicData) {
 	if (author) {
 		author.id = `${anchorId}-author`;
 		root.querySelector("article")?.setAttribute("aria-labelledby", author.id);
+		if (entry.author?.name) author.textContent = entry.author.name;
+	}
+	if (entry.author?.kind === "fish") {
+		root.dataset.author = "fish";
+		const profileHref = url(localPosts?.profileUrl || "/about/fish/");
+		for (const link of root.querySelectorAll<HTMLAnchorElement>(
+			".dynamic-avatar, .dynamic-author",
+		)) {
+			link.href = profileHref;
+			link.removeAttribute("data-no-swup");
+			link.setAttribute("aria-label", entry.author.name);
+		}
+		const avatarLink = root.querySelector(".dynamic-avatar");
+		avatarLink?.querySelectorAll("source").forEach((source) => {
+			source.remove();
+		});
+		const avatar = avatarLink?.querySelector<HTMLImageElement>("img");
+		if (avatar && entry.author.avatar) {
+			avatar.src = entry.author.avatar;
+			avatar.alt = entry.author.name;
+			avatar.removeAttribute("srcset");
+			avatar.removeAttribute("sizes");
+		}
 	}
 	root
 		.querySelectorAll<HTMLAnchorElement>("[data-dynamic-permalink]")
@@ -158,8 +195,8 @@ function createItem(entry: DynamicData) {
 	if (time) {
 		const date = new Date(entry.published);
 		time.dateTime = date.toISOString();
-		// 第三方 API 和 Memos 使用浏览器本地时区，不做额外时区转换
-		if (source.startsWith("http") || memos?.enable) {
+		// 第三方 API、Memos 和小肥鱼使用浏览器本地时区
+		if (entry.externalTime || source.startsWith("http") || memos?.enable) {
 			time.textContent = date.toLocaleDateString("zh-CN", {
 				year: "numeric",
 				month: "2-digit",
@@ -285,7 +322,14 @@ onMount(() => {
 
 	const load = async () => {
 		try {
-			if (memos?.enable) {
+			if (localPosts?.enable) {
+				entries = await fetchSiteAndLocalPosts(
+					source,
+					localPosts.apiUrl,
+					localPosts.name,
+					localPosts.avatar,
+				);
+			} else if (memos?.enable) {
 				entries = await fetchMemos(memos.apiUrl, { parent: memos.parent });
 			} else {
 				const response = await fetch(source);

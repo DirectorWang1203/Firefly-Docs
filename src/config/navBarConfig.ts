@@ -68,6 +68,8 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	});
     
     links.push(LinkPresets.Chat);
+    
+    links.push(LinkPresets.Exercise);
 
 	// 关于及其子菜单
 	links.push({
@@ -209,6 +211,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
         name: "AI对话",
         url: "/chat/",
         icon: "material-symbols:chat",
+    },
+    Exercise: {
+        name: "登神长阶",
+        url: "/exercise/",
+        icon: "material-symbols:exercise",
     }
 };
 

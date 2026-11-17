@@ -421,4 +421,7 @@ export const zh_TW: Translation = {
 
 	// AI聊天
 	[Key.chat]: "AI聊天",
+
+	// 登神長階
+	[Key.exercise]: "登神長階",
 };

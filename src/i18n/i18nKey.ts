@@ -417,6 +417,9 @@ enum I18nKey {
 
 	// AI聊天
 	chat = "chat",
+
+	// 登神长阶
+	exercise = "exercise",
 }
 
 export default I18nKey;

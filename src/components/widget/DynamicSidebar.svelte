@@ -8,6 +8,7 @@ import { i18n } from "@i18n/translation";
 import { onMount } from "svelte";
 import { formatDynamicDate } from "@/utils/date-utils";
 import { fetchWithDedup } from "@/utils/fetch-dedup";
+import { fetchSiteAndLocalPosts } from "@/utils/local-posts-adapter";
 import { fetchMemos } from "@/utils/memos-adapter";
 import { url } from "@/utils/url-utils";
 
@@ -18,6 +19,8 @@ interface DynamicEntry {
 	images?: Array<{ alt: string; src: string; title?: string }>;
 	searchText?: string;
 	pinned?: boolean;
+	author?: { name: string; avatar?: string; kind?: "fish" };
+	externalTime?: boolean;
 }
 
 interface MemosConfig {
@@ -26,13 +29,23 @@ interface MemosConfig {
 	parent?: string;
 }
 
+interface LocalPostsConfig {
+	enable: boolean;
+	apiUrl: string;
+	name?: string;
+	avatar?: string;
+	profileUrl?: string;
+}
+
 interface Props {
 	apiUrl: string;
 	limit: number;
+	profileName: string;
 	memos?: MemosConfig;
+	localPosts?: LocalPostsConfig;
 }
 
-let { apiUrl, limit, memos }: Props = $props();
+let { apiUrl, limit, profileName, memos, localPosts }: Props = $props();
 
 let entries: DynamicEntry[] = $state([]);
 let totalCount = $state(0);
@@ -42,7 +55,14 @@ let error = $state(false);
 onMount(async () => {
 	try {
 		let data: DynamicEntry[];
-		if (memos?.enable) {
+		if (localPosts?.enable) {
+			data = await fetchSiteAndLocalPosts(
+				apiUrl,
+				localPosts.apiUrl,
+				localPosts.name,
+				localPosts.avatar,
+			);
+		} else if (memos?.enable) {
 			data = await fetchMemos(memos.apiUrl, { parent: memos.parent });
 		} else {
 			data = await fetchWithDedup(apiUrl);
@@ -75,9 +95,9 @@ function getPlainText(html: string): string {
 // 格式化日期
 // 本地 API 使用 formatDynamicDate（带时区转换）
 // 第三方 API 和 Memos 使用浏览器本地时区，不做额外转换
-function formatDate(timestamp: number): string {
-	if (apiUrl.startsWith("http") || memos?.enable) {
-		return new Date(timestamp).toLocaleDateString("zh-CN", {
+function formatDate(entry: DynamicEntry): string {
+	if (entry.externalTime || apiUrl.startsWith("http") || memos?.enable) {
+		return new Date(entry.published).toLocaleDateString("zh-CN", {
 			year: "numeric",
 			month: "2-digit",
 			day: "2-digit",
@@ -85,7 +105,7 @@ function formatDate(timestamp: number): string {
 			minute: "2-digit",
 		});
 	}
-	return formatDynamicDate(new Date(timestamp));
+	return formatDynamicDate(new Date(entry.published));
 }
 </script>
 
@@ -105,21 +125,42 @@ function formatDate(timestamp: number): string {
 		{#each entries as entry (entry.id)}
 			{@const text = getPlainText(entry.html)}
 			{@const image = entry.images?.[0]}
-			<a
-				href={url(`/dynamic/#dynamic-${entry.id}`)}
+			{@const authorName = entry.author?.name || profileName}
+			{@const fish = entry.author?.kind === "fish"}
+			<div
 				class="group flex min-w-0 min-h-16 items-center gap-3 rounded-lg p-2
 					text-neutral-700/75 dark:text-neutral-300/75
 					hover:bg-(--btn-plain-bg-hover) hover:text-(--primary)
 					active:bg-(--btn-plain-bg-active) transition-colors duration-150"
-				aria-label={`${i18n(I18nKey.dynamic)}: ${text}`}
 			>
+				{#if entry.author?.avatar}
+					<a
+						href={url(localPosts?.profileUrl || "/about/fish/")}
+						class="shrink-0"
+						aria-label={authorName}
+					>
+						<img
+							src={entry.author.avatar}
+							alt=""
+							class="size-8 rounded-full object-cover object-[center_28%]"
+						/>
+					</a>
+				{/if}
+				<a
+					href={url(`/dynamic/#dynamic-${entry.id}`)}
+					class="flex min-w-0 flex-1 items-center gap-3"
+					aria-label={`${authorName}: ${text}`}
+				>
 				<div class="min-w-0 flex-1">
-					<div class="mb-1 flex items-center gap-1 text-xs leading-4 text-(--primary)">
+					<div class="mb-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs leading-4 text-(--primary)">
 						<svg class="size-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
 						</svg>
+						<span class="font-medium {fish ? 'text-sky-600 dark:text-sky-400' : ''}">
+							{authorName}
+						</span>
 						<time datetime={new Date(entry.published).toISOString()}>
-							{formatDate(entry.published)}
+							{formatDate(entry)}
 						</time>
 						{#if entry.pinned}
 							<span class="ml-auto inline-flex items-center gap-0.5 text-[10px] px-1 py-0.5 rounded bg-(--primary)/10 text-(--primary) font-medium">
@@ -141,7 +182,8 @@ function formatDate(timestamp: number): string {
 						decoding="async"
 					/>
 				{/if}
-			</a>
+				</a>
+			</div>
 		{/each}
 	{/if}
 </div>
