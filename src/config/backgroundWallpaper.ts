@@ -2,7 +2,7 @@ import type { BackgroundWallpaperConfig } from "@/types/backgroundWallpaper";
 
 export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 壁纸模式："banner" 横幅壁纸，"fullscreen" 全屏壁纸，"overlay" 全屏透明，"none" 纯色背景无壁纸
-	mode: "banner",
+	mode: "overlay",
 	// 是否启用背景视频播放，配置后将在导航栏显示视频播放按钮
 	playerEnable: false,
 	/**
@@ -75,18 +75,27 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 是否启用主页横幅文字
 			enable: true,
 			// 主页横幅主标题
-			title: "Lovely firefly!",
+			// title: "Lovely firefly!",
+            title: "Firmamentum・苍穹",
 			// 主页横幅主标题字体大小
 			titleSize: "4.5rem",
 			// 主页横幅副标题
-			subtitle: [
-				"In Reddened Chrysalis, I Once Rest",
-				"From Shattered Sky, I Free Fall",
-				"Amidst Silenced Stars, I Deep Sleep",
-				"Upon Lighted Fyrefly, I Soon Gaze",
-				"From Undreamt Night, I Thence Shine",
-				"In Finalized Morrow, I Full Bloom",
-			],
+			// subtitle: [
+			// 	"In Reddened Chrysalis, I Once Rest",
+			// 	"From Shattered Sky, I Free Fall",
+			// 	"Amidst Silenced Stars, I Deep Sleep",
+			// 	"Upon Lighted Fyrefly, I Soon Gaze",
+			// 	"From Undreamt Night, I Thence Shine",
+			// 	"In Finalized Morrow, I Full Bloom",
+			// ],
+            subtitle: [
+                "放弃幻想，准备斗争",
+                "小时候总喜欢幻想仗剑行四方，现在才发现已经不需要再幻想了",
+                "这个世界有太多不美好的事物，所以我才想要留住那一丝丝的温暖",
+                "不是所有事情都被允许逃避，做好准备才能做到更好",
+                "成为世界的观察者，去尝试锚定那唯一的结局",
+                "过去满目狰狞，但她却能创造拥有无限可能的未来",
+            ],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",
 			typewriter: {

@@ -4,7 +4,7 @@ published: 2026-11-20
 pinned: true
 description: 个人博客的一期工程规划，简述近期博客更新内容，以及后续的更新方向和一些博客经营目标
 image: ../images/firefly/firefly-update-01/firefly-update-01.png
-tags: [Firefly, 更新, 博客规划一期]
+tags: [Firefly, 博客规划一期]
 category: firefly
 slug: firefly/firefly-update-01
 ---
